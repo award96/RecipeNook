@@ -9,7 +9,7 @@ developer and to have something to show for that growth.
 ## Stack
 
 ### Frontend
-![react](/client/src/images/reactLogo.jpg | width=200)
+![react](/client/src/images/reactLogo.jpg | width=100)
 ![materialUI](/client/src/images/materialUILogo.png | width=200)
 
 ### Server
