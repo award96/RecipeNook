@@ -1,89 +1,49 @@
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app).
+# RecipeNook
+## find and share recipes
 
-## Available Scripts
+https://www.recipenook.app
 
-In the project directory, you can run:
+I created this fully functional website to become a better
+developer and to have something to show for that growth.
 
-### `npm start`
+## Stack
 
-Runs the app in the development mode.<br /> Open
-[http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Frontend
+![react](/client/src/images/reactLogo.jpg)
+![materialUI](/client/src/images/materialUILogo.png)
 
-The page will reload if you make edits.<br /> You will also see any lint errors
-in the console.
+### Server
+![nodeJS](/client/src/images/nodeJSLogo.png)
+![expressJS](/client/src/images/ExpressJSLogo.png)
 
-### `npm test`
+### Database
+![mySQL](/client/src/images/mySQLlogo.png)
 
-Launches the test runner in the interactive watch mode.<br /> See the section
-about
-[running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
+### Hosting
+![heroku](/client/src/images/herokuLogo.png)
 
-### `npm run build`
+RecipeNook was created with a frontend of React and Material UI,
+an Express JS server, and a Google Cloud MySQL database. The site is
+hosted using Heroku.
 
-Builds the app for production to the `build` folder.<br /> It correctly bundles
-React in production mode and optimizes the build for the best performance.
+## Users
 
-The build is minified and the filenames include the hashes.<br /> Your app is
-ready to be deployed!
+The site is centered around users. The sign in process works through
+Firebase Auth, and the MySQL DB stores user info - specifically their
+id number, username, and avatar picture.
 
-See the section about
-[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
-more information.
+### Users can 
+- make and edit a recipe
+- post and edit a review
+- follow one another
+- favorite a recipe
+- recieve a notification
+- change their username
+- add and change an avatar picture
 
-### `npm run eject`
+Each user has a public profile page as well.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Data Model
 
-If you aren’t satisfied with the build tool and configuration choices, you can
-`eject` at any time. This command will remove the single build dependency from
-your project.
+![DB model](/client/src/images/MySQLmodel.png)
 
-Instead, it will copy all the configuration files and the transitive
-dependencies (webpack, Babel, ESLint, etc) right into your project so you have
-full control over them. All of the commands except `eject` will still work, but
-they will point to the copied scripts so you can tweak them. At this point
-you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for
-small and middle deployments, and you shouldn’t feel obligated to use this
-feature. However we understand that this tool wouldn’t be useful if you couldn’t
-customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the
-[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here:
-https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here:
-https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here:
-https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here:
-https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here:
-https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here:
-https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
