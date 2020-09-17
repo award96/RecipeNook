@@ -9,18 +9,18 @@ developer and to have something to show for that growth.
 ## Stack
 
 ### Frontend
-![react](/client/src/images/reactLogo.jpg =200x)
-![materialUI](/client/src/images/materialUILogo.png =200x)
+![react](/client/src/images/reactLogo.jpg | width=200)
+![materialUI](/client/src/images/materialUILogo.png | width=200)
 
 ### Server
-![nodeJS](/client/src/images/nodeJSLogo.png =200x)
-![expressJS](/client/src/images/ExpressJSLogo.png =200x)
+![nodeJS](/client/src/images/nodeJSLogo.png | width=200)
+![expressJS](/client/src/images/ExpressJSLogo.png | width=200)
 
 ### Database
-![mySQL](/client/src/images/mySQLlogo.png =200x)
+![mySQL](/client/src/images/mySQLlogo.png | width=200)
 
 ### Hosting
-![heroku](/client/src/images/herokuLogo.png =200x)
+![heroku](/client/src/images/herokuLogo.png | width=200)
 
 RecipeNook was created with a frontend of React and Material UI,
 an Express JS server, and a Google Cloud MySQL database. The site is
