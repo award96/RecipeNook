@@ -150,6 +150,14 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
     height: 88,
   },
+  mysqlImg: {
+    width: 200,
+    height: 103,
+  },
+  herokuImg: {
+    width: 200,
+    height: 105,
+  },
   contactRoot: {
     paddingRight: theme.spacing(3),
     paddingLeft: theme.spacing(3),

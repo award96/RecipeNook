@@ -4,6 +4,8 @@ import reactImg from '../../images/reactLogo.jpg'
 import materialImg from '../../images/materialUILogo.png'
 import nodeImg from '../../images/nodeJSLogo.png'
 import expressImg from '../../images/ExpressJSLogo.png'
+import mysqlImg from '../../images/mySQLlogo.png'
+import herokuImg from '../../images/herokuLogo.png'
 import dataModel from '../../images/MySQLmodel.png'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -227,6 +229,50 @@ const Code = (props) => {
                       popular Node framework, and is extremely helpful in fast
                       development. It was such a breeze to learn, I was able to
                       get the basics of my server up and running in no time.
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Grid container className={classes.codeContainer}>
+                  <Grid item xs={12} md={6}>
+                    <img
+                      className={classes.mysqlImg}
+                      src={mysqlImg}
+                      alt="mySQL"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="body1">
+                      A relational database made the most sense here because
+                      the recipe and user data have clearly defined relationships
+                      that require integrity. The format of the data is also very
+                      consistent.
+                      <br/>
+                      The choice of MySQL over other options was largely arbitray, though
+                      it should be said its popularity was a large part of that choice.
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+              <AccordionDetails>
+                <Grid container className={classes.codeContainer}>
+                  <Grid item xs={12} md={6}>
+                    <img
+                      className={classes.herokuImg}
+                      src={herokuImg}
+                      alt="heroku"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Typography variant="body1">
+                      Heroku has been quick to set up and easy to work with.
+                      They also offer an affordable $7/month option for project
+                      websites, which was perfect for me.
+                      <br/>
+                      The GitHub integration is amazing. I have it set to push
+                      to my development server, which allows for a great workflow.
+                      Just push, test, and deploy.
                     </Typography>
                   </Grid>
                 </Grid>
