@@ -8,6 +8,10 @@ developer and to have something to show for that growth.
 
 ## Stack
 
+RecipeNook was created with a frontend of React and Material UI,
+an Express JS server, and a Google Cloud MySQL database. The site is
+hosted using Heroku.
+
 ### Frontend
 <img src="/client/src/images/reactLogo.jpg" width="200">
 <img src="/client/src/images/materialUILogo.png" width="200">
@@ -22,10 +26,6 @@ developer and to have something to show for that growth.
 ### Hosting
 <img src="/client/src/images/herokuLogo.png" width="200">
 
-
-RecipeNook was created with a frontend of React and Material UI,
-an Express JS server, and a Google Cloud MySQL database. The site is
-hosted using Heroku.
 
 ## Users
 
