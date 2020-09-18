@@ -6,6 +6,9 @@ https://www.recipenook.app
 I created this fully functional website to become a better
 developer and to have something to show for that growth.
 
+It should be noted that this repo is missing private configuration settings and 
+will not connect to the MySQL database, or to Heroku.
+
 ## Stack
 
 RecipeNook was created with a frontend of React and Material UI,
