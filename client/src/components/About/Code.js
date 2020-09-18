@@ -33,7 +33,7 @@ const Code = (props) => {
         {isActive && (
           <>
             <Grid container className={classes.codeHeader}>
-              <Link className={classes.link} href="https://github.com/award96">
+              <Link className={classes.link} href="https://github.com/award96/RecipeNook">
                 <Typography variant="h4">Check it out on GitHub</Typography>
               </Link>
             </Grid>
