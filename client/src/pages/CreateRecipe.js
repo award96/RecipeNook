@@ -335,7 +335,7 @@ const CreateRecipe = (props) => {
     return (
       <Redirect
         to={{
-          pathname: routes.LOGIN,
+          pathname: routes.CREATE_ACCOUNT,
           props: {
             wasRedirected: true,
             alertMessage: 'Please log in to create a recipe',
