@@ -189,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
 const About = (props) => {
   const classes = useStyles()
   // which tab is displayed
-  const [tab, setTab] = useState('Author')
+  const [tab, setTab] = useState('Code')
   // feedback form in contact tab
   const [feedback, setFeedback] = useState('')
   const [isLoading, setIsLoading] = useState(false)
