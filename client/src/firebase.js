@@ -22,39 +22,24 @@ const auth = firebase.auth()
 // export handleUserAuth
 
 const handleUserAuth = async (authObject) => {
-  const {type} = authObject
-
+  const {type, email, password, username} = authObject
+  let newUserId
   try {
     if (type === 'create') {
-      const {email, password, username} = authObject
-      const {user} = await auth.createUserWithEmailAndPassword(email, password)
       try {
-        console.log('\nposting new user')
         let newUser = {
           username: username,
           email: email,
         }
-        console.log(JSON.stringify(newUser))
-        let response = await fetch('/api/users/create', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newUser),
-        })
-        console.log('response')
-        console.log(response)
-        let jsonResp = await response.json()
-        console.log('jsonResp')
-        console.log(jsonResp.status)
-        console.log(jsonResp)
-      } catch (err) {
-        console.log('\npost new user error')
-        console.log(err)
+        let response = await postNewUser(newUser)
+        newUserId = response
+      } catch (error) {
+        throw new Error('Create New User Error')
       }
+      const {user} = await auth.createUserWithEmailAndPassword(email, password)
+
       return user
     } else if (type === 'login') {
-      const {email, password} = authObject
       const {user} = await auth.signInWithEmailAndPassword(email, password)
       return user
     } else if (type === 'logout') {
@@ -64,10 +49,8 @@ const handleUserAuth = async (authObject) => {
       throw new Error('invalid authentication type')
     }
   } catch (error) {
+    await deleteNewUser(newUserId)
     var errorCode = error.code
-    var errorMessage = error.message
-
-    console.log(`\nError ${errorCode}\n${errorMessage}`)
     return {errorCode}
   }
 }

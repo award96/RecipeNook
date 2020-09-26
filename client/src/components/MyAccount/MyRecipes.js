@@ -51,7 +51,7 @@ const MyRecipes = (props) => {
   const handleDelete = async (recipeId) => {
     handleClose()
     let resp = await deleteRecipe(recipeId)
-    if (resp.status !== 200) {
+    if (!resp.ok) {
       // unsuccessful
       sendAlert({
         alert: 'Something went wrong. Please refresh and try again',

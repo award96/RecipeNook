@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import postFeedback from '../API/postFeedback'
 import {TabStepper, Author, Code, Contact, AlertBar} from '../components/index'
 import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles'
@@ -212,15 +213,8 @@ const About = (props) => {
   // contact tab feedback submit
   const handleSubmit = async () => {
     setIsLoading(true)
-    let resp = await fetch('/api/feedback', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({feedback}),
-    })
-    let respJson = await resp.json()
-    if (respJson.status === 200) {
+    let respJson = await postFeedback(feedback)
+    if (respJson.ok) {
       setFeedback('')
       setIsAlert(true)
       setAlertMessage('Thank you for your feedback')

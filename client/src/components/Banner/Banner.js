@@ -2,6 +2,8 @@ import React, {useState, useContext, useEffect} from 'react'
 import {UserContext} from '../../userContext'
 import {WindowSizeContext} from '../../windowSizeContext'
 import {handleUserAuth} from '../../firebase'
+import fetchSearchResults from '../../API/fetchSearchResults'
+import readNotifications from '../../API/readNotifications'
 import Searchbar from './Searchbar'
 import {Link, useHistory} from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
@@ -29,7 +31,7 @@ const Banner = ({routes}) => {
   // notification objects
   const [notifications, setNotifications] = useState([])
   // user
-  const {user} = useContext(UserContext) || ''
+  const {user, reloadUserContext} = useContext(UserContext) || ''
   const isLoggedIn = user ? true : false
   // window size
   const {size} = useContext(WindowSizeContext) || [0, 0]
@@ -42,14 +44,17 @@ const Banner = ({routes}) => {
       return
     }
     const getSearchResults = async () => {
-      let response = await fetch(`/api/recipes/search/${search}`)
-      let respData = await response.json()
-      setDisplay(respData)
+      let searchResults = await fetchSearchResults(search)
+      setDisplay(searchResults)
     }
     getSearchResults()
   }, [search])
   // fetch notifications
   useEffect(() => {
+    // userContext api call failed
+    if (user && !user.username) {
+      reloadUserContext()
+    }
     if (user && user.notifications) {
       setNotifications(user.notifications)
     }
@@ -68,15 +73,7 @@ const Banner = ({routes}) => {
 
     if (user && user.notifications) {
       // tell server the user has seen the notifications
-      await fetch('/api/users/social/viewNotif', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          notifIdArray: user.notifications.map((notif) => notif.id),
-        }),
-      })
+      await readNotifications(user.notifications.map((notif) => notif.id))
     }
   }
   // push route based on what notification was clicked

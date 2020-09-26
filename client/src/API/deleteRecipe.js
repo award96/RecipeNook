@@ -1,13 +1,12 @@
 const deleteRecipe = async (recipeId) => {
-  let resp = await fetch('/api/recipes/delete', {
-    method: 'POST',
+  let resp = await fetch(`/api/v2/recipes/${recipeId}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({recipeId}),
   })
-  let jsonResp = await resp.json()
-  return jsonResp
+  return resp
 }
 
 export default deleteRecipe

@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {UserContext} from '../userContext'
 import fetchUserSocial from '../API/fetchUserSocial'
+import fetchUserByUsername from '../API/fetchUserByUsername'
 import postFavorite from '../API/postFavorite'
 import postFollow from '../API/postFollow'
 import {useParams} from 'react-router-dom'
@@ -74,9 +75,7 @@ const UserProfile = (props) => {
     // get user Id and userpic
     const fetchUser = async () => {
       try {
-        let response = await fetch(`/api/users/get/username/${username}`)
-        let jsonResp = await response.json()
-
+        let jsonResp = await fetchUserByUsername(username)
         setUserpic(jsonResp.userpic)
         setUserId(jsonResp.id)
         return jsonResp.id
@@ -89,7 +88,6 @@ const UserProfile = (props) => {
     const fetchSocial = async (userId) => {
       try {
         let socialDataObj = await fetchUserSocial(userId)
-
         setFollowers(socialDataObj.followers)
         setFollowing(socialDataObj.following)
         setFavorites(socialDataObj.favorites)
@@ -108,7 +106,7 @@ const UserProfile = (props) => {
     }
 
     fetchAll()
-  }, [username, user])
+  }, [username, user, userId])
 
   // load viewing user's data
   useEffect(() => {
@@ -202,9 +200,9 @@ const UserProfile = (props) => {
   }
   // state logic using postFollow response
   const editAdded = (resp, otherUsersId) => {
-    if (resp.status === 200) {
+    if (resp.ok) {
       let newAdded = [...added]
-      if (resp.message === 'created') {
+      if (!added.includes(otherUsersId)) {
         // follow
         newAdded.push(otherUsersId)
       } else {
@@ -248,9 +246,9 @@ const UserProfile = (props) => {
         user.id,
         user.username,
       )
-      if (resp.status === 200) {
+      if (resp.ok) {
         let newFavoriteList = [...favoritesAdded]
-        if (resp.message === 'created') {
+        if (!favoritesAdded.includes(recipeId)) {
           // favorited
           newFavoriteList.push(recipeId)
         } else {

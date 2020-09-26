@@ -1,6 +1,7 @@
-import React, {useState, useReducer, useContext, useEffect} from 'react'
+import React, {useState, useReducer, useContext, useEffect} from 'react' //
 import {UserContext} from '../userContext'
 import fetchRecipeSecondary from '../API/fetchRecipeSecondary'
+import postNewRecipe from '../API/postNewRecipe'
 import updateRecipe from '../API/updateRecipe'
 import {Redirect, useLocation} from 'react-router-dom'
 import {
@@ -220,7 +221,7 @@ const postRecipe = async (
       reloadData()
     } else {
       let message = 'Something went wrong, please refresh and try again'
-      if (resp.message.errno === 1366) {
+      if (resp && resp.message && resp.message.errno === 1366) {
         message = 'There is a non-supported character in your recipe'
       }
       formDispatch({type: 'failure', message})
@@ -228,28 +229,19 @@ const postRecipe = async (
   } else {
     // post new recipe
     try {
-      let response = await fetch('/api/recipes/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newRecipe),
-      })
-      let jsonResp = await response.json()
+      let jsonResp = await postNewRecipe(newRecipe)
 
       if (jsonResp.status === 201) {
         formDispatch({type: 'success'})
         reloadData()
       } else {
         let message = 'Something went wrong, please refresh and try again'
-        if (jsonResp.message.errno === 1366) {
+        if (jsonResp && jsonResp.message && jsonResp.message.errno === 1366) {
           message = 'There is a non-supported character in your recipe'
         }
         formDispatch({type: 'failure', message})
       }
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
 }
 // name of each step as user sees it

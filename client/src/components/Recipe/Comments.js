@@ -158,6 +158,8 @@ const Comments = (props) => {
         )
       })
       setCommentsMap(newCommentsMap)
+    } else if (comments && comments.length === 0) {
+      setCommentsMap(null)
     }
   }, [comments, user, isLoading])
 

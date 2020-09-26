@@ -1,7 +1,9 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {UserContext} from '../userContext'
 import {WindowSizeContext} from '../windowSizeContext'
+import fetchSingleRecipe from '../API/fetchSingleRecipe'
 import fetchRecipeSecondary from '../API/fetchRecipeSecondary'
+import postNewReview from '../API/postNewReview'
 import redirectEditRecipe from '../components/Shared/redirectEditRecipe'
 import {useHistory} from 'react-router-dom'
 import deleteComment from '../API/deleteComment'
@@ -55,9 +57,7 @@ const Recipe = (props) => {
         let getRecipe
         getRecipe = data.find((recipe) => recipe.id === recipeId)
         if (!getRecipe) {
-          let thisRecipeResponse = await fetch(`/api/recipes/get/${recipeId}`)
-          let thisRecipeJson = await thisRecipeResponse.json()
-          getRecipe = thisRecipeJson[0]
+          getRecipe = await fetchSingleRecipe(recipeId)
         }
         setThisRecipe(getRecipe)
         setIsRecipeLoaded(true)
@@ -99,16 +99,9 @@ const Recipe = (props) => {
       recipeId: recipeId,
       recipeUserId: thisRecipe.userId,
     }
-    let response = await fetch('/api/reviews/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(review),
-    })
-    let jsonResp = await response.json()
-    if (jsonResp.status === 200) {
-      const {insertId} = jsonResp
+    let resp = await postNewReview(review)
+    if (resp.ok) {
+      const {insertId} = await resp.json()
       let alertObj = {message: 'Review successfully posted', type: 'success'}
       sendAlert(alertObj)
       let commentsCopy = [...comments]
@@ -134,7 +127,7 @@ const Recipe = (props) => {
       return true
     } else {
       let message = 'Something went wrong, please refresh and try again'
-      if (jsonResp.message.errno === 1366) {
+      if (resp && resp.message && resp.message.errno === 1366) {
         message = 'There is a non-supported character in your comment'
       }
       sendAlert({
@@ -154,9 +147,9 @@ const Recipe = (props) => {
       user.id,
       recipeId,
     )
-    if (resp.status !== 200) {
+    if (!resp.ok) {
       let message = 'Something went wrong, please refresh and try again'
-      if (resp.message.errno === 1366) {
+      if (resp && resp.message && resp.message.errno === 1366) {
         message = 'There is a non-supported character in your comment'
       }
       sendAlert({
@@ -200,17 +193,17 @@ const Recipe = (props) => {
   const deleteReview = async (ratingId) => {
     handleDialogueClose()
     let resp = await deleteComment(ratingId)
-    if (!ratingId || resp.status !== 200) {
+    if (!ratingId || !resp.ok) {
       sendAlert({
         message: 'Something went wrong, please refresh and try again',
         type: 'warning',
       })
     } else {
-      sendAlert({message: 'Deleted', type: 'success'})
       let commentsCopy = [...comments]
       let del_index = commentsCopy.findIndex((com) => com.id === ratingId)
       commentsCopy.splice(del_index, 1)
       setComments(commentsCopy)
+      sendAlert({message: 'Deleted', type: 'success'})
     }
   }
 

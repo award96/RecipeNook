@@ -1,13 +1,12 @@
 const deleteComment = async (ratingId) => {
-  let resp = await fetch('/api/reviews/delete', {
-    method: 'POST',
+  let resp = await fetch(`/api/v2/reviews/${ratingId}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ratingId}),
   })
-  let jsonResp = await resp.json()
-  return jsonResp
+  return resp
 }
 
 export default deleteComment

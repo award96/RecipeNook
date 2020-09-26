@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {UserContext} from '../userContext'
+import fetchUserFavorites from '../API/fetchUserFavorites'
 import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles'
@@ -114,6 +115,7 @@ const sortRecipes = (array, method) => {
 
 const RecipeCards = (props) => {
   let {user, updateUserContext} = useContext(UserContext) || ''
+
   const classes = useStyles()
   var {data, isLoaded, routes} = props
   // how to sort header recipes
@@ -130,12 +132,11 @@ const RecipeCards = (props) => {
   // load user data
   useEffect(() => {
     const getUserFavorites = async () => {
-      let resp = await fetch(`/api/users/social/get/favorites/${user.id}`)
-      let respJson = await resp.json()
+      let respJson = await fetchUserFavorites(user.id)
       setFavoriteList(respJson.map((favoriteRecipe) => favoriteRecipe.recipeId))
     }
     if (user) {
-      // check whether to send alert then getUserFavorites
+      // check whether to send alert
       if (user.shouldSetPic) {
         // tell user to set their userpic
         sendAlert({
@@ -187,10 +188,10 @@ const RecipeCards = (props) => {
         user.username,
       )
 
-      if (resp.status === 200) {
+      if (resp.ok) {
         // success
         let newFavoriteList = [...favoriteList]
-        if (resp.message === 'created') {
+        if (!favoriteList.includes(recipeId)) {
           // favorited
           newFavoriteList.push(recipeId)
         } else {
@@ -201,8 +202,7 @@ const RecipeCards = (props) => {
         setFavoriteList(newFavoriteList)
       } else {
         // error
-        console.log(resp.status)
-        console.log(resp)
+
         sendAlert({
           alert: 'Something went wrong. Please refresh and try again',
           type: 'warning',

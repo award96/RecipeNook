@@ -5,6 +5,8 @@ import {Redirect, useLocation} from 'react-router-dom'
 import fetchUserSocial from '../API/fetchUserSocial'
 import postFavorite from '../API/postFavorite'
 import postFollow from '../API/postFollow'
+import checkIfUsernameAvail from '../API/checkIfUsernameAvail'
+import updateUserRequest from '../API/updateUserRequest'
 import {
   AccountTabs,
   Settings,
@@ -145,8 +147,6 @@ const MyAccount = (props) => {
         setFollowingSetAdded(socialDataObj.following)
         setFavorites(socialDataObj.favorites)
       } catch (error) {
-        console.log('fetchSocial error')
-        console.log(error)
         setFollowers([])
         setFollowingSetAdded([])
         setFavorites([])
@@ -212,9 +212,12 @@ const MyAccount = (props) => {
       }
       // could be follow or unfollow, server resp decides
       let resp = await postFollow(linkId, user.id, user.username)
-      if (resp.status === 200) {
+      if (resp.ok) {
         var newFollowing = [...following]
-        if (resp.message === 'created') {
+        let del_index = following.findIndex(
+          (item) => item.respUserId === linkId,
+        )
+        if (del_index === -1) {
           // posted follow
           // unique to the LinkList component, we know that any newly followed user
           // will have been present in the followers array.
@@ -225,15 +228,13 @@ const MyAccount = (props) => {
           newFollowing.push(followers[add_index])
         } else {
           // posted unfollow
-          let del_index = following.findIndex(
-            (item) => item.respUserId === linkId,
-          )
+
           newFollowing.splice(del_index, 1)
         }
         setFollowingSetAdded(newFollowing)
         return
       } else {
-        // status was not 200
+        // status was not ok
         sendAlert({
           alert: 'Something went wrong, please refresh and try again',
           type: 'warning',
@@ -248,14 +249,14 @@ const MyAccount = (props) => {
   // user's own recipes under settings are not favoritable from this view
   const handleFavorite = async (recipeId, recipeUserId) => {
     let resp = await postFavorite(recipeId, recipeUserId, user.id)
-    if (resp.status !== 200) {
+    if (!resp.ok) {
       sendAlert({
         alert: 'Something went wrong. Please refresh and try again',
         type: 'warning',
       })
       return
     }
-
+    // can only unfavorite because this is the user's page of favorites
     let newFavorites = [...favorites]
     let del_index = newFavorites.findIndex(
       (favorite) => favorite.recipeId === recipeId,
@@ -297,9 +298,7 @@ const MyAccount = (props) => {
       sendAlert({alert: badInput, type: 'warning'})
       return
     }
-    let usernameResponse = await fetch(`/api/users/check/${usernameVal}`)
-    let usernameData = await usernameResponse.json()
-    let isNameAvail = usernameData.length === 0
+    let isNameAvail = checkIfUsernameAvail(usernameVal)
     if (!isNameAvail) {
       sendAlert({alert: 'Username is already in use', type: 'warning'})
       setSubmitting(false)
@@ -316,16 +315,8 @@ const MyAccount = (props) => {
       id: user.id,
       value,
     }
-
-    let updateUserResponse = await fetch('api/users/update', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updateUserBody),
-    })
-    let updateUser = await updateUserResponse.json()
-    if (updateUser.status === 200) {
+    let updateUser = await updateUserRequest(updateUserBody)
+    if (updateUser.status === 201) {
       sendAlert({alert: `${field} successfully changed`, type: 'success'})
       updateUserContext({type: field, value})
       // remove submitted field from edit set
@@ -339,7 +330,11 @@ const MyAccount = (props) => {
       }
     } else {
       let alert = 'Something went wrong, please refresh and try again'
-      if (updateUser.message.errno === 1366) {
+      if (
+        updateUser &&
+        updateUser.message &&
+        updateUser.message.errno === 1366
+      ) {
         alert = 'There is a non-supported character in your username'
       }
       sendAlert({alert: alert, type: 'warning'})
@@ -353,8 +348,6 @@ const MyAccount = (props) => {
       setUsernameVal(e.currentTarget.value)
     } else if (e.currentTarget.name === 'userpic') {
       setUserpicVal(e.currentTarget.value)
-    } else {
-      console.log('unrecognized event')
     }
   }
   // set UI alert
@@ -437,13 +430,12 @@ const MyAccount = (props) => {
             xs={12}
           >
             {favoritesArray.map((recipe) => (
-              <Grid item>
+              <Grid key={recipe.id} item>
                 <OneCard
                   isFavorited
                   handleFavorite={handleFavorite}
                   handleShare={handleShare}
                   recipe={recipe}
-                  key={recipe.id}
                   small
                   routes={routes}
                 />

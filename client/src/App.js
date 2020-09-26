@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import fetchAllRecipes from './API/fetchAllRecipes'
 import {Route, Switch} from 'react-router-dom'
 import {ThemeProvider} from '@material-ui/core/styles'
 import './App.css'
@@ -22,8 +23,7 @@ function App() {
   // fetch recipe data
   useEffect(() => {
     const fetchData = async () => {
-      let response = await fetch('/api/recipes/get')
-      let respData = await response.json()
+      let respData = await fetchAllRecipes()
       setData(respData)
       setIsLoaded(true)
     }

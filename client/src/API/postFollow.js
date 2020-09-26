@@ -6,15 +6,14 @@ const postFollow = async (userId, followerId) => {
     followerId = parseInt(followerId)
   }
 
-  let response = await fetch('/api/users/social/follow', {
+  let response = await fetch(`/api/v2/follows/${userId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({userId, followerId}),
   })
-  let respJson = await response.json()
-  return respJson
+  return response
 }
 
 export default postFollow

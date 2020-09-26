@@ -1,6 +1,7 @@
 import React, {useContext, useReducer} from 'react'
 import {auth, handleUserAuth} from '../../firebase'
 import {UserContext} from '../../userContext'
+import checkIfUsernameAvail from '../../API/checkIfUsernameAvail'
 import {useStyles, Alert} from './FunctionsAccountForm'
 import usernamePasswordValidation from '../Shared/usernamePasswordValidation'
 import Username from './Username'
@@ -191,17 +192,10 @@ const AccountForm = (props) => {
           true,
         )
         // check if username is in use already, so long as user entered input
-        let usernameResponse, usernameData
+        let isNameAvail, usernameData
         if (accountFormState.nameField) {
-          usernameResponse = await fetch(
-            `/api/users/check/${accountFormState.nameField}`,
-          )
-          // usernameData empty if no matching username
-          usernameData = await usernameResponse.json()
+          isNameAvail = await checkIfUsernameAvail(accountFormState.nameField)
         }
-
-        const isNameAvail = usernameData && usernameData.length === 0
-
         if (badInput) {
           // the username/password were invalid
           accountFormDispatch({type: 'failure', errorMessage: badInput})
@@ -219,7 +213,6 @@ const AccountForm = (props) => {
       await accountFunc(authObject) // redirects user automatically
       accountFormDispatch({type: 'success'})
     } catch (error) {
-      console.log('Error in handleSubmit')
       accountFormDispatch({type: 'failure', errorMessage: error.message})
     }
   }

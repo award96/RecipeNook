@@ -1,13 +1,17 @@
 import React, {createContext, useState, useEffect} from 'react'
 import {auth} from './firebase'
+import fetchUserByEmail from './API/fetchUserByEmail'
+import fetchUserNotifications from './API/fetchUserNotifications'
 
 const UserContext = createContext({
   user: {},
   updateUserContext: () => {},
+  reloadUserContext: () => {},
 })
 
 const UserContextProvider = (props) => {
   const [user, setUser] = useState()
+  const [reload, setReload] = useState(false)
 
   // update user context without API call
   const updateUserContext = (updateObj) => {
@@ -19,6 +23,10 @@ const UserContextProvider = (props) => {
         [type]: value,
       }
     })
+  }
+  // useEffect trigger
+  const reloadUserContext = () => {
+    setReload((prevState) => !prevState)
   }
   // ComponentDidMount & Component Will Unmount
   useEffect(() => {
@@ -37,9 +45,10 @@ const UserContextProvider = (props) => {
     const getUserInfo = async (userAuth) => {
       try {
         let email = await userAuth.email
-        let response = await fetch(`/api/users/get/${email}`, {signal})
-        let respData = await response.json()
-
+        let respData = await fetchUserByEmail(email, signal)
+        if (respData && respData.length > 0) {
+          respData = respData[0]
+        }
         userAuth.id = respData.id
         userAuth.username = respData.username
         userAuth.userpic = respData.userpic
@@ -48,16 +57,11 @@ const UserContextProvider = (props) => {
           userAuth.shouldSetPic = true
         }
         // Now grab notifications with user Id
-        let notifications = await fetch(
-          `/api/users/social/get/notifications/${userAuth.id}`,
-        )
-        let notifData = await notifications.json()
-        userAuth.notifications = notifData
 
+        let notifData = await fetchUserNotifications(userAuth.id)
+        userAuth.notifications = notifData
         setUser(userAuth)
       } catch (error) {
-        console.log(error)
-        console.log('setting user after error')
         setUser(userAuth)
       }
     }
@@ -69,7 +73,7 @@ const UserContextProvider = (props) => {
   }, [])
 
   return (
-    <UserContext.Provider value={{user, updateUserContext}}>
+    <UserContext.Provider value={{user, updateUserContext, reloadUserContext}}>
       {props.children}
     </UserContext.Provider>
   )

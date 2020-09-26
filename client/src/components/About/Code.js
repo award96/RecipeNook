@@ -33,7 +33,10 @@ const Code = (props) => {
         {isActive && (
           <>
             <Grid container className={classes.codeHeader}>
-              <Link className={classes.link} href="https://github.com/award96/RecipeNook">
+              <Link
+                className={classes.link}
+                href="https://github.com/award96/RecipeNook"
+              >
                 <Typography variant="h4">Check it out on GitHub</Typography>
               </Link>
             </Grid>
@@ -244,13 +247,14 @@ const Code = (props) => {
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <Typography variant="body1">
-                      A relational database made the most sense here because
-                      the recipe and user data have clearly defined relationships
-                      that require integrity. The format of the data is also very
-                      consistent.
-                      <br/>
-                      The choice of MySQL over other options was largely arbitray, though
-                      it should be said its popularity was a large part of that choice.
+                      A relational database made the most sense here because the
+                      recipe and user data have clearly defined relationships
+                      that require integrity. The format of the data is also
+                      very consistent.
+                      <br />
+                      The choice of MySQL over other options was largely
+                      arbitray, though it should be said its popularity was a
+                      large part of that choice.
                     </Typography>
                   </Grid>
                 </Grid>
@@ -269,10 +273,10 @@ const Code = (props) => {
                       Heroku has been quick to set up and easy to work with.
                       They also offer an affordable $7/month option for project
                       websites, which was perfect for me.
-                      <br/>
+                      <br />
                       The GitHub integration is amazing. I have it set to push
-                      to my development server, which allows for a great workflow.
-                      Just push, test, and deploy.
+                      to my development server, which allows for a great
+                      workflow. Just push, test, and deploy.
                     </Typography>
                   </Grid>
                 </Grid>
