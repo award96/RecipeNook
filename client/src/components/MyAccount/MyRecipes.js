@@ -62,12 +62,13 @@ const MyRecipes = (props) => {
       // success
       sendAlert({alert: 'Deleted', type: 'success'})
       // edit local recipe data state
-      let myRecipesCopy = [...myRecipes]
-      let del_index = myRecipesCopy.findIndex(
-        (recipe) => recipe.id === recipeId,
-      )
-      myRecipesCopy.splice(del_index, 1)
-      setMyRecipes(myRecipesCopy)
+      setMyRecipes((prevMyRecipes) => {
+        let del_index = prevMyRecipes.findIndex(
+          (recipe) => recipe.id === recipeId,
+        )
+        prevMyRecipes.splice(del_index, 1)
+        return [...prevMyRecipes]
+      })
     }
     reloadData()
   }

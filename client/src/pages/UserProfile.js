@@ -4,6 +4,7 @@ import fetchUserSocial from '../API/fetchUserSocial'
 import fetchUserByUsername from '../API/fetchUserByUsername'
 import postFavorite from '../API/postFavorite'
 import postFollow from '../API/postFollow'
+import editArray from '../components/Shared/editArray'
 import {useParams} from 'react-router-dom'
 import {UserBanner, OneCard, LinkList, AlertBar} from '../components/index'
 import Grid from '@material-ui/core/Grid'
@@ -201,16 +202,7 @@ const UserProfile = (props) => {
   // state logic using postFollow response
   const editAdded = (resp, otherUsersId) => {
     if (resp.ok) {
-      let newAdded = [...added]
-      if (!added.includes(otherUsersId)) {
-        // follow
-        newAdded.push(otherUsersId)
-      } else {
-        // unfollow
-        let del_index = newAdded.findIndex((id) => id === otherUsersId)
-        newAdded.splice(del_index, 1)
-      }
-      setAdded(newAdded)
+      setAdded((prevAdded) => editArray(prevAdded, otherUsersId))
     } else {
       // status indicates error
       sendAlert({
@@ -247,16 +239,7 @@ const UserProfile = (props) => {
         user.username,
       )
       if (resp.ok) {
-        let newFavoriteList = [...favoritesAdded]
-        if (!favoritesAdded.includes(recipeId)) {
-          // favorited
-          newFavoriteList.push(recipeId)
-        } else {
-          // unfavorited
-          let del_index = newFavoriteList.findIndex((id) => id === recipeId)
-          newFavoriteList.splice(del_index, 1)
-        }
-        setFavoritesAdded(newFavoriteList)
+        setFavoritesAdded((prevList) => editArray(prevList, recipeId))
       } else {
         // error
         sendAlert({

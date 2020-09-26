@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import {UserContext} from '../userContext'
 import fetchUserFavorites from '../API/fetchUserFavorites'
+import editArray from '../components/Shared/editArray'
 import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import {makeStyles} from '@material-ui/core/styles'
@@ -190,16 +191,7 @@ const RecipeCards = (props) => {
 
       if (resp.ok) {
         // success
-        let newFavoriteList = [...favoriteList]
-        if (!favoriteList.includes(recipeId)) {
-          // favorited
-          newFavoriteList.push(recipeId)
-        } else {
-          // unfavorited
-          let del_index = newFavoriteList.findIndex((id) => id === recipeId)
-          newFavoriteList.splice(del_index, 1)
-        }
-        setFavoriteList(newFavoriteList)
+        setFavoriteList((prevList) => editArray(prevList, recipeId))
       } else {
         // error
 

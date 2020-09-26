@@ -257,12 +257,13 @@ const MyAccount = (props) => {
       return
     }
     // can only unfavorite because this is the user's page of favorites
-    let newFavorites = [...favorites]
-    let del_index = newFavorites.findIndex(
-      (favorite) => favorite.recipeId === recipeId,
-    )
-    newFavorites.splice(del_index, 1)
-    setFavorites(newFavorites)
+    setFavorites((prevFavorites) => {
+      let del_index = prevFavorites.findIndex(
+        (favorite) => favorite.recipeId === recipeId,
+      )
+      prevFavorites.splice(del_index, 1)
+      return [...prevFavorites]
+    })
   }
   // copy link to recipe to user clipboard
   const handleShare = (recipeId) => {
