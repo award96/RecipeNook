@@ -5,8 +5,7 @@ import fetchUserNotifications from './API/fetchUserNotifications'
 
 const UserContext = createContext({
   user: {},
-  updateUserContext: () => {},
-  reloadUserContext: () => {},
+  updateUserContext: () => {}
 })
 
 const UserContextProvider = (props) => {
@@ -23,10 +22,6 @@ const UserContextProvider = (props) => {
         [type]: value,
       }
     })
-  }
-  // useEffect trigger
-  const reloadUserContext = () => {
-    setReload((prevState) => !prevState)
   }
   // ComponentDidMount & Component Will Unmount
   useEffect(() => {
@@ -73,7 +68,7 @@ const UserContextProvider = (props) => {
   }, [])
 
   return (
-    <UserContext.Provider value={{user, updateUserContext, reloadUserContext}}>
+    <UserContext.Provider value={{user, updateUserContext}}>
       {props.children}
     </UserContext.Provider>
   )

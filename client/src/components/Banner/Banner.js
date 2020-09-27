@@ -31,7 +31,7 @@ const Banner = ({routes}) => {
   // notification objects
   const [notifications, setNotifications] = useState([])
   // user
-  const {user, reloadUserContext} = useContext(UserContext) || ''
+  const {user} = useContext(UserContext) || ''
   const isLoggedIn = user ? true : false
   // window size
   const {size} = useContext(WindowSizeContext) || [0, 0]
@@ -51,10 +51,7 @@ const Banner = ({routes}) => {
   }, [search])
   // fetch notifications
   useEffect(() => {
-    // userContext api call failed
-    if (user && !user.username) {
-      reloadUserContext()
-    }
+
     if (user && user.notifications) {
       setNotifications(user.notifications)
     }
