@@ -5,7 +5,9 @@ const useBannerStyles = makeStyles((theme) => {
     grow: {
       flexGrow: 1,
     },
-    root: {},
+    root: {
+      height: "4rem",
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },

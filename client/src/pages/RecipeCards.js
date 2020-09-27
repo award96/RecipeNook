@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: '0rem',
     minHeight: '35rem',
+    [theme.breakpoints.up('lg')]: {
+      minHeight: '100rem',
+    }
   },
   headerContainer: {
     width: '100%',
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headerRoot: {
     width: '100%',
+    maxHeight: '18rem',
     justifyContent: 'center',
     backgroundColor: theme.palette.white.offWhite,
   },
@@ -41,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: 'center',
   },
   headerCardRoot: {
+    maxWidth: 2800,
     paddingLeft: '2rem',
     height: '13rem',
     maxHeight: '13rem',
@@ -52,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     height: '13rem',
     width: '18%',
     maxHeight: '13rem',
+    maxWidth: 325,
   },
   headerLink: {
     textDecoration: 'none',
@@ -69,9 +75,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '1rem',
   },
   cardRoot: {
-    justifyContent: 'space-between',
+    justifyContent: 'start',
     paddingLeft: paddingSize,
     paddingRight: paddingSize,
+    maxWidth: 2800,
   },
 }))
 
@@ -254,16 +261,24 @@ const RecipeCards = (props) => {
         />
         {isLoaded ? (
           data.map((recipe) => (
-            <OneCard
-              userId={user ? user.id : null}
-              classes={classes}
-              recipe={recipe}
-              key={recipe.id}
-              isFavorited={favoriteList.includes(recipe.id)}
-              handleFavorite={handleFavorite}
-              handleShare={handleShare}
-              routes={routes}
-            />
+            <Grid
+              item
+              sm={12}
+              md={6}
+              lg={4}
+              xl={3}
+            >
+              <OneCard
+                userId={user ? user.id : null}
+                classes={classes}
+                recipe={recipe}
+                key={recipe.id}
+                isFavorited={favoriteList.includes(recipe.id)}
+                handleFavorite={handleFavorite}
+                handleShare={handleShare}
+                routes={routes}
+              />
+            </Grid>
           ))
         ) : (
           <></>
