@@ -92,10 +92,4 @@ router.put('/notifications', notifPut.wasRead) // change notifications to 'wasRe
 // feedback
 router.post('/feedback', feedbackPost.post)
 
-// serve static page
-
-router.get('*', (request, response) => {
-  response.sendFile(path.join(__dirname, '../client/build', 'index.html'))
-})
-
 module.exports = router

@@ -21,3 +21,8 @@ server.listen(port, () => console.log(`Running on localhost:${port}`))
 // API routes
 const routes = require('./routes')
 app.use('/api/v2', routes)
+
+// serve correct static page
+app.get('*', (request, response) => {
+  response.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+})
