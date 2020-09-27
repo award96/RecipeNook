@@ -28,7 +28,8 @@ const recipeSQL = `SELECT  recipes.id,
                     ON (recipes.id = avg_stars.recipeID)
                     `
 const all = async () => {
-  return await query(recipeSQL)
+  let allSQL = recipeSQL + 'ORDER BY rand()'
+  return await query(allSQL)
 }
 
 const search = async (search) => {
