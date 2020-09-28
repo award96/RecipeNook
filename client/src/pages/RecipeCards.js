@@ -9,6 +9,7 @@ import {HeaderRecipes, OneCard, AlertBar} from '../components/index'
 import postFavorite from '../API/postFavorite'
 
 const paddingSize = '6rem'
+const paddingSizeXS = '1.5rem'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,8 +77,12 @@ const useStyles = makeStyles((theme) => ({
   },
   cardRoot: {
     justifyContent: 'start',
-    paddingLeft: paddingSize,
-    paddingRight: paddingSize,
+    paddingLeft: paddingSizeXS,
+    paddingRight: 0,
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: paddingSize,
+      paddingRight: paddingSize,
+    },
     maxWidth: 2800,
   },
 }))
@@ -262,7 +267,9 @@ const RecipeCards = (props) => {
         {isLoaded ? (
           data.map((recipe) => (
             <Grid
+              key={recipe.id}
               item
+              xs={8}
               sm={12}
               md={6}
               lg={4}
@@ -272,7 +279,6 @@ const RecipeCards = (props) => {
                 userId={user ? user.id : null}
                 classes={classes}
                 recipe={recipe}
-                key={recipe.id}
                 isFavorited={favoriteList.includes(recipe.id)}
                 handleFavorite={handleFavorite}
                 handleShare={handleShare}
