@@ -1,5 +1,6 @@
 import React, {useState, useReducer, useContext, useEffect} from 'react' //
 import {UserContext} from '../userContext'
+import {auth} from '../firebase'
 import fetchRecipeSecondary from '../API/fetchRecipeSecondary'
 import postNewRecipe from '../API/postNewRecipe'
 import updateRecipe from '../API/updateRecipe'
@@ -170,7 +171,9 @@ const postRecipe = async (
   reloadData,
   prevRecipe = null,
 ) => {
+  let authToken = await auth.currentUser.getIdToken(/* forceRefresh */ false)
   let newRecipe = {
+    authToken,
     title: formState.title,
     tagline: formState.tagline,
     img: formState.img,

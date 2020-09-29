@@ -17,7 +17,16 @@ const putUserpic = async (userId, value) => {
   return await query(sql)
 }
 
+const putUID = async (userId, value) => {
+  let sql = mysql.format('UPDATE users SET uid=? WHERE id=?', [
+    value,
+    userId,
+  ])
+  return await query(sql)
+}
+
 module.exports = {
   putUsername,
   putUserpic,
+  putUID
 }

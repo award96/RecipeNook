@@ -10,6 +10,8 @@ const put = async (userId, type, value) => {
       await usersPut.putUsername(userId, value)
     } else if (type === 'userpic') {
       await usersPut.putUserpic(userId, value)
+    } else if (type === 'uid') {
+      await usersPut.putUID(userId, value)
     } else {
       throw new Error('Unrecognized Type')
     }

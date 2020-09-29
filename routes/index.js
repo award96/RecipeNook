@@ -15,6 +15,7 @@ const {
   favoritesPost,
   favoritesDelete,
   followsPost,
+  usersAuth,
   usersPost,
   usersGet,
   usersPut,
@@ -29,6 +30,7 @@ const router = express.Router()
 // recipes
 router.get('/recipes', recipesGet.all)
 router.post('/recipes', [
+  usersAuth.auth,
   recipesPost.post,
   ingredientsPost.post,
   directionsPost.post,
@@ -38,6 +40,7 @@ router.post('/recipes', [
 
 router.get('/recipes/:recipeId', recipesGet.single)
 router.put('/recipes/:recipeId', [
+  usersAuth.auth,
   recipesPut.put,
   ingredientsDelete.del,
   directionsDelete.del,
@@ -45,6 +48,7 @@ router.put('/recipes/:recipeId', [
   directionsPost.post,
 ])
 router.delete('/recipes/:recipeId', [
+  usersAuth.auth,
   notifDelete.del,
   favoritesDelete.del,
   reviewsDelete.delRecipe,
@@ -58,12 +62,12 @@ router.get('/recipes/:recipeId/ingredients', recipesGet.ingredients)
 router.get('/recipes/:recipeId/directions', recipesGet.directions)
 
 // reviews
-router.post('/reviews', [reviewsPost.post, notifPost.postReview])
+router.post('/reviews', [usersAuth.auth, reviewsPost.post, notifPost.postReview])
 
 router.get('/reviews/:recipeId', reviewsGet.all)
 
-router.put('/reviews/:reviewId', reviewsPut.put)
-router.delete('/reviews/:reviewId', reviewsDelete.del)
+router.put('/reviews/:reviewId', usersAuth.auth, reviewsPut.put)
+router.delete('/reviews/:reviewId', usersAuth.auth, reviewsDelete.del)
 
 // favorite
 router.post('/favorites/:recipeId', favoritesPost.post, notifPost.postFavorite)
@@ -78,6 +82,7 @@ router.post('/users/email', usersGet.email)
 router.get('/users/username/:username', usersGet.username)
 
 router.put('/users/:userId', usersPut.put)
+// will only delete a user with no corresponding firebase acct
 router.delete('/users/:userId', usersDelete.del)
 
 router.get('/users/:userId/followers', usersGet.followers)

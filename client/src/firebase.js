@@ -1,15 +1,18 @@
 import firebase from 'firebase/app'
+import postNewUser from './API/postNewUser'
+import updateUserRequest from './API/updateUserRequest'
+import deleteNewUser from './API/deleteNewUser'
 import 'firebase/auth'
 
 //
-var firebaseConfig = { // secret info
-    apiKey: '',
-    authDomain: '',
-    databaseURL: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
+var firebaseConfig = {
+  apiKey: 'AIzaSyAtJGBn-sClCXfVi6-bCSYJweB6q3nNml0',
+  authDomain: 'project9-273100.firebaseapp.com',
+  databaseURL: 'https://project9-273100.firebaseio.com',
+  projectId: 'project9-273100',
+  storageBucket: 'project9-273100.appspot.com',
+  messagingSenderId: '813510025842',
+  appId: '1:813510025842:web:8b4864fbc314749f2e98eb',
 }
 
 firebase.initializeApp(firebaseConfig)
@@ -37,7 +40,7 @@ const handleUserAuth = async (authObject) => {
         throw new Error('Create New User Error')
       }
       const {user} = await auth.createUserWithEmailAndPassword(email, password)
-
+      await updateUserRequest({id: newUserId, type: 'uid', value: user.uid})
       return user
     } else if (type === 'login') {
       const {user} = await auth.signInWithEmailAndPassword(email, password)
@@ -54,5 +57,7 @@ const handleUserAuth = async (authObject) => {
     return {errorCode}
   }
 }
+
+
 
 export {auth, handleUserAuth}

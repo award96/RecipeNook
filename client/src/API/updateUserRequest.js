@@ -1,3 +1,10 @@
+/*
+  updateUserBody:
+    id: users ID
+    type: 'username' || 'userpic' || 'uuid'
+    value: new value to post to DB
+*/
+
 const updateUserRequest = async (updateUserBody) => {
   let resp = await fetch(`api/v2/users/${updateUserBody.id}`, {
     method: 'PUT',

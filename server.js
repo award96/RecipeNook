@@ -18,6 +18,20 @@ app.set('port', port)
 const server = http.createServer(app)
 server.listen(port, () => console.log(`Running on localhost:${port}`))
 
+// user Auth / firebase admin
+var admin = require('firebase-admin');
+const secret_info = require('./secret_info')
+try {
+  admin.initializeApp({
+    credential: admin.credential.cert(secret_info.service),
+    databaseURL: secret_info.firebaseDatabaseURL
+  })
+} catch (error) {
+  console.log("Error initializing firebase admin")
+  console.log(error.message)
+}
+module.exports = {admin}
+
 // API routes
 const routes = require('./routes')
 app.use('/api/v2', routes)

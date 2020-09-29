@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {auth} from '../../firebase'
 import {useHistory} from 'react-router-dom'
 import deleteRecipe from '../../API/deleteRecipe'
 import redirectEditRecipe from '../Shared/redirectEditRecipe'
@@ -50,7 +51,12 @@ const MyRecipes = (props) => {
   // delete recipe because of dialogue popup click
   const handleDelete = async (recipeId) => {
     handleClose()
-    let resp = await deleteRecipe(recipeId)
+    let userId, authToken
+    if (user) {
+      userId = user.id
+      authToken = await auth.currentUser.getIdToken(/* forceRefresh */ false)
+    }
+    let resp = await deleteRecipe(recipeId, userId, authToken)
     if (!resp.ok) {
       // unsuccessful
       sendAlert({

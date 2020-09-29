@@ -4,6 +4,7 @@ import {WindowSizeContext} from '../windowSizeContext'
 import fetchSingleRecipe from '../API/fetchSingleRecipe'
 import fetchRecipeSecondary from '../API/fetchRecipeSecondary'
 import postNewReview from '../API/postNewReview'
+import {auth} from '../firebase'
 import redirectEditRecipe from '../components/Shared/redirectEditRecipe'
 import {useHistory} from 'react-router-dom'
 import deleteComment from '../API/deleteComment'
@@ -92,12 +93,14 @@ const Recipe = (props) => {
   }
   // user posts a comment
   const submitReview = async (comment, ratingValue) => {
+    let authToken = await auth.currentUser.getIdToken(/* forceRefresh */ false)
     let review = {
       comment: comment,
       rating: ratingValue,
       userId: user.id,
       recipeId: recipeId,
       recipeUserId: thisRecipe.userId,
+      authToken
     }
     let resp = await postNewReview(review)
     if (resp.ok) {
@@ -140,12 +143,14 @@ const Recipe = (props) => {
 
   // user posts edited review/comment
   const updateReview = async (comment, ratingValue, ratingId) => {
+    let authToken = await auth.currentUser.getIdToken(/* forceRefresh */ false)
     let resp = await updateComment(
       comment,
       ratingValue,
       ratingId,
       user.id,
       recipeId,
+      authToken
     )
     if (!resp.ok) {
       let message = 'Something went wrong, please refresh and try again'
@@ -192,7 +197,8 @@ const Recipe = (props) => {
   // user deletes their comment
   const deleteReview = async (ratingId) => {
     handleDialogueClose()
-    let resp = await deleteComment(ratingId)
+    let authToken = await auth.currentUser.getIdToken(/* forceRefresh */ false)
+    let resp = await deleteComment(ratingId, user.id, authToken)
     if (!ratingId || !resp.ok) {
       sendAlert({
         message: 'Something went wrong, please refresh and try again',

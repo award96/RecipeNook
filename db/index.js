@@ -13,6 +13,7 @@ const reviewsDelete = require('./reviewsDelete.db')
 const favoritesPost = require('./favoritesPost.db')
 const favoritesDelete = require('./favoritesDelete.db')
 const followsPost = require('./followsPost.db')
+const usersAuth = require('./usersAuth.db')
 const usersGet = require('./usersGet.db')
 const usersPost = require('./usersPost.db')
 const usersPut = require('./usersPut.db')
@@ -38,6 +39,7 @@ module.exports = {
   reviewsDelete,
   favoritesPost,
   favoritesDelete,
+  usersAuth,
   usersGet,
   usersPost,
   usersPut,

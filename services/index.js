@@ -13,6 +13,7 @@ const reviewsDelete = require('./reviewsDelete.service')
 const favoritesPost = require('./favoritesPost.service')
 const favoritesDelete = require('./favoritesDelete.service')
 const followsPost = require('./followsPost.service')
+const usersAuth = require('./usersAuth.service')
 const usersPost = require('./usersPost.service')
 const usersGet = require('./usersGet.service')
 const usersPut = require('./usersPut.service')
@@ -38,6 +39,7 @@ module.exports = {
   favoritesPost,
   favoritesDelete,
   followsPost,
+  usersAuth,
   usersPost,
   usersGet,
   usersPut,

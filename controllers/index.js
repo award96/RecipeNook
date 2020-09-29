@@ -13,6 +13,7 @@ const reviewsDelete = require('./reviewsDelete.controller')
 const favoritesPost = require('./favoritesPost.controller')
 const favoritesDelete = require('./favoritesDelete.controller')
 const followsPost = require('./followsPost.controller')
+const usersAuth = require('./usersAuth.controller')
 const usersPost = require('./usersPost.controller')
 const usersGet = require('./usersGet.controller')
 const usersPut = require('./usersPut.controller')
@@ -38,6 +39,7 @@ module.exports = {
   favoritesPost,
   favoritesDelete,
   followsPost,
+  usersAuth,
   usersPost,
   usersGet,
   usersPut,
@@ -45,5 +47,5 @@ module.exports = {
   notifPost,
   notifDelete,
   notifPut,
-  feedbackPost,
+  feedbackPost
 }
