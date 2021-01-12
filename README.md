@@ -1,7 +1,7 @@
 # RecipeNook
 ## find and share recipes
 
-### I have taken the website down as of 01/12/2
+### I have taken the website down as of 01/12/21
 ### My free trial for Google Cloud SQL had run out
 
 I created this fully functional website to become a better
